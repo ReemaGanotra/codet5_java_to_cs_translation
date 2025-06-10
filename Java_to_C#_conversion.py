@@ -14,7 +14,7 @@ import datasets
 # datasets.utils.logging.disable_progress_bar()
 
 datasets.utils.logging.enable_progress_bar()
-# Step 1: Load the CodeXGLUE Python-to-Java dataset
+# Load the CodeXGLUE Python-to-Java dataset
 dataset = load_dataset("google/code_x_glue_cc_code_to_code_trans")
 train_data = dataset['train']
 train_data = train_data.select(range(500))
@@ -22,12 +22,12 @@ train_data = train_data.select(range(500))
 
 # dataset = load_dataset("nyu-mll/glue", "mrpc", split="train")
 
-# Step 2: Load a pre-trained model (CodeT5 or another seq2seq model)
+# Load a pre-trained model (CodeT5 or another seq2seq model)
 model_name = "Salesforce/codet5-base"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-# Step 3: Tokenize the dataset
+# Tokenize the dataset
 def tokenize_function(examples):
     # Tokenize both input and target
     inputs = tokenizer(examples['java'], padding="max_length", truncation=True, max_length=512)
@@ -53,7 +53,7 @@ training_args = TrainingArguments(
     save_total_limit=2,
 )
 
-# Step 5: Initialize Trainer
+# Initialize Trainer
 trainer = Trainer(
     model=model,
     args=training_args,
@@ -62,10 +62,10 @@ trainer = Trainer(
     tokenizer=tokenizer,
 )
 
-# Step 6: Fine-tune the model
+# Fine-tune the model
 trainer.train()
 
-# Step 7: Save the model
+# Save the model
 model.save_pretrained("codet5_java_to_cs_model")
 tokenizer.save_pretrained("codet5_java_to_cs_model")
 
