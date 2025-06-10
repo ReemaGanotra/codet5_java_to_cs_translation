@@ -76,6 +76,6 @@ def generate_translation(input_code):
         output = model.generate(inputs['input_ids'].to(model.device), max_length=512)
     return tokenizer.decode(output[0], skip_special_tokens=True)
 
-# Example: Translating Python to Java (you can replace this with SAS to Python after dataset creation)
+
 translated_code = generate_translation("public class AddNumbers {public static int add(int a, int b) {return a + b;} public static void main(String[] args) {        int num1 = 5; int num2 = 10; int result = add(num1, num2); System.out.println(result);   }}")
 print(f"Translated cs code: {translated_code}")
